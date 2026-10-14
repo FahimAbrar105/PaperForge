@@ -1,0 +1,14 @@
+services:
+  paperforge:
+    build: .
+    image: paperforge:1.0
+    container_name: paperforge
+    ports:
+      - "127.0.0.1:8000:8000"   # only reachable from this computer
+    volumes:
+      - ./output:/app/output    # job history, uploads and results stay in ./output
+    environment:
+      - PAPERFORGE_RETENTION_DAYS=7
+    extra_hosts:
+      - "host.docker.internal:host-gateway"   # lets the container reach Ollama on this computer
+    restart: unless-stopped

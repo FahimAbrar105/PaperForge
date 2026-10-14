@@ -1,0 +1,66 @@
+{
+  "venue_id": "cvpr",
+  "display_name": "CVPR (two-column)",
+  "venue_type": "conference",
+  "template": {
+    "directory": "cvpr",
+    "document_class": "article",
+    "class_options": ["10pt", "twocolumn", "letterpaper"],
+    "main_template": "main.tex.j2",
+    "bibliography_style": "ieeenat_fullname",
+    "citations": "natbib_numbers",
+    "loads_packages": ["times", "xspace", "xcolor", "graphicx", "amsmath", "amssymb", "booktabs", "natbib", "silence",
+                       "etoolbox", "caption", "subcaption", "url", "keyval", "color", "lineno", "enumitem", "hyperref",
+                       "cleveref"],
+    "files": ["cvpr.sty", "ieeenat_fullname.bst"]
+  },
+  "layout": {
+    "paper_size": "letter",
+    "columns": 2,
+    "page_limit": { "max_pages_main": 8 }
+  },
+  "content_rules": {
+    "keywords": { "printed": false },
+    "forbidden_packages": ["geometry", "fullpage", "titlesec", "setspace", "vmargin", "savetrees", "a4wide", "times-ieee"],
+    "anonymous_submission": true,
+    "reference_words": {
+      "equation": ["Eq.", "Equation"],
+      "figure": ["Fig.", "Figure"],
+      "table": ["Tab.", "Table"],
+      "section": ["Sec.", "Section"]
+    }
+  },
+  "checks": [
+    { "id": "compile", "type": "compile_success", "severity": "error", "description": "LaTeX compiles to PDF without fatal errors" },
+    { "id": "doc_class", "type": "document_class", "severity": "error", "description": "Uses the bundled cvpr.sty on a two-column letter-size article", "params": { "class": "article", "required_options": ["twocolumn", "letterpaper"], "package": "cvpr" } },
+    { "id": "page_limit", "type": "page_limit", "severity": "error", "description": "At most 8 pages before the references, in both the review and the final version", "params": { "main_ends_before": ["Acknowledgments", "Acknowledgements", "References"] } },
+    { "id": "paper_size", "type": "paper_size", "severity": "error", "description": "US Letter paper (8.5 x 11 in)" },
+    { "id": "fonts", "type": "fonts_embedded", "severity": "error", "description": "All fonts embedded in the PDF" },
+    { "id": "packages", "type": "forbidden_packages", "severity": "error", "description": "No packages that change the CVPR margins, spacing or headings" },
+    { "id": "abstract", "type": "abstract_length", "severity": "warning", "description": "Abstract present" },
+    { "id": "anonymity", "type": "anonymity", "severity": "error", "description": "Review version names no authors" },
+    { "id": "figures", "type": "figures_resolved", "severity": "error", "description": "Every referenced figure file is present and embeddable" },
+    { "id": "citations", "type": "citations_resolved", "severity": "error", "description": "Every citation key has a bibliography entry" },
+    { "id": "references", "type": "references_resolved", "severity": "warning", "description": "No undefined \\ref labels" },
+    { "id": "bibliography", "type": "bibliography_present", "severity": "warning", "description": "Paper has a reference list" },
+    { "id": "overfull", "type": "overfull_boxes", "severity": "warning", "description": "No text sticking into the margin (overfull boxes larger than 5pt)", "params": { "threshold_pt": 5 } },
+    { "id": "glyphs", "type": "missing_glyphs", "severity": "warning", "description": "Every character prints (no glyphs missing from the font)" },
+    { "id": "title_style", "type": "title_style", "severity": "style", "description": "Title in title case", "params": { "case": "title", "no_all_caps": true, "no_math": true } },
+    { "id": "heading_case", "type": "heading_case", "severity": "style", "description": "Headings in sentence case, at most two levels", "params": { "case": "sentence", "max_level": 2 } },
+    { "id": "numbered_equations", "type": "numbered_equations", "severity": "style", "description": "Every displayed equation is numbered" },
+    { "id": "appendices", "type": "no_appendices", "severity": "warning", "description": "Appendices go in the supplementary material" },
+    { "id": "reference_details", "type": "reference_details", "severity": "style", "description": "References give full author names", "params": { "full_first_names": true, "arxiv": true } },
+    { "id": "spelling", "type": "spelling_consistency", "severity": "style", "description": "British or American spelling, not both" },
+    { "id": "abbreviations", "type": "undefined_abbreviations", "severity": "style", "description": "Abbreviations are spelled out at first use" },
+    { "id": "underscores", "type": "stray_underscores", "severity": "style", "description": "No plain underscores in the text" },
+    { "id": "figure_resolution", "type": "figure_resolution", "severity": "style", "description": "Images print at 150 dpi or more", "params": { "min_dpi": 150 } },
+    { "id": "identifying_text", "type": "identifying_text", "severity": "warning", "description": "Review version gives no hint of the authors and has no external links", "params": { "no_links": true } },
+    { "id": "paper_id", "type": "manual", "severity": "manual", "description": "Enter your paper ID in \\def\\paperID{...} in main.tex, and check \\confYear matches this year's conference" },
+    { "id": "leftover_notes", "type": "text_pattern", "severity": "warning", "description": "No leftover notes to self (\\todo, TODO, FIXME)", "params": { "pattern": "\\\\(?:todo|TODO|fixme|FIXME)\\b|\\b(?:TODO|FIXME|TBD)\\b", "message": "The paper still has notes to self. Remove them, or write the missing text, before you submit." } },
+    { "id": "typed_references", "type": "typed_references", "severity": "warning", "description": "Typed figure and table numbers match the paper, and every figure and table has a caption" }
+  ],
+  "manual_review_items": [
+    "Author names, affiliations and emails were copied from your upload; confirm them in the final version.",
+    "Equation, table and figure placement may differ from your original layout."
+  ]
+}

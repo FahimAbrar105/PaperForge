@@ -1,0 +1,7 @@
+# Keep line endings right for each launcher, whatever system the folder is copied through.
+*.bat text eol=crlf
+*.sh  text eol=lf
+*.whl binary
+*.docx binary
+*.png binary
+*.pdf binary

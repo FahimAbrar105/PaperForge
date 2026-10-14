@@ -1,0 +1,91 @@
+{
+  "venue_id": "ieee_conference",
+  "display_name": "IEEE Conference (IEEEtran, two-column)",
+  "venue_type": "conference",
+  "template": {
+    "directory": "ieee_conference",
+    "document_class": "IEEEtran",
+    "class_options": ["conference"],
+    "main_template": "main.tex.j2",
+    "section_template": "section.tex.j2",
+    "split_sections": false,
+    "bibliography_style": "IEEEtran",
+    "citations": "cite",
+    "caption_setup": [
+      "\\captionsetup{font=footnotesize,labelsep=period}",
+      "\\captionsetup[table]{labelsep=newline,textfont=sc,justification=centering}",
+      "\\captionsetup[sub]{font=footnotesize,labelsep=space}"
+    ],
+    "files": ["IEEEtran.cls", "IEEEtran.bst"],
+    "class_punctuates_run_in_headings": true
+  },
+  "layout": {
+    "paper_size": "letter",
+    "columns": 2,
+    "page_limit": {
+      "max_pages_main": 6,
+      "max_pages_total": 8
+    }
+  },
+  "content_rules": {
+    "abstract_max_words": 250,
+    "keywords": { "max_count": 10, "latex_env": "IEEEkeywords" },
+    "required_sections": ["Introduction", "Conclusion"],
+    "forbidden_packages": ["geometry", "fullpage", "titlesec", "setspace", "fancyhdr", "vmargin", "savetrees", "a4wide", "times-ieee"],
+    "anonymous_submission": false,
+    "reference_words": {
+      "equation": ["", "Equation"],
+      "figure": ["Fig.", "Fig."],
+      "table": ["Table", "Table"],
+      "section": ["Section", "Section"],
+      "citation": ["", "Reference"]
+    },
+    "sort_keywords": true,
+    "leading_zero": true,
+    "roman_numbers": true
+  },
+  "checks": [
+    { "id": "compile", "type": "compile_success", "severity": "error", "description": "LaTeX compiles to PDF without fatal errors" },
+    { "id": "doc_class", "type": "document_class", "severity": "error", "description": "Uses the bundled IEEEtran class in conference mode", "params": { "class": "IEEEtran", "required_options": ["conference"] } },
+    { "id": "page_limit", "type": "page_limit", "severity": "error", "description": "Within the page limit (6 pages, up to 8 with overlength pages)" },
+    { "id": "paper_size", "type": "paper_size", "severity": "error", "description": "US Letter paper (8.5 x 11 in)", "params": { "width_pt": 612, "height_pt": 792, "tolerance_pt": 2 } },
+    { "id": "fonts", "type": "fonts_embedded", "severity": "error", "description": "All fonts embedded in the PDF (IEEE PDF eXpress requirement)" },
+    { "id": "packages", "type": "forbidden_packages", "severity": "error", "description": "No packages that change IEEE margins, spacing or headings" },
+    { "id": "sections", "type": "required_sections", "severity": "warning", "description": "Has Introduction and Conclusion sections" },
+    { "id": "abstract", "type": "abstract_length", "severity": "warning", "description": "Abstract present and at most 250 words" },
+    { "id": "keywords", "type": "keywords_present", "severity": "warning", "description": "Index Terms (keywords) present" },
+    { "id": "figures", "type": "figures_resolved", "severity": "error", "description": "Every referenced figure file is present and embeddable" },
+    { "id": "citations", "type": "citations_resolved", "severity": "error", "description": "Every \\cite key has a bibliography entry" },
+    { "id": "references", "type": "references_resolved", "severity": "warning", "description": "No undefined \\ref labels" },
+    { "id": "bibliography", "type": "bibliography_present", "severity": "warning", "description": "Paper has a reference list" },
+    { "id": "overfull", "type": "overfull_boxes", "severity": "warning", "description": "No text sticking into the margin (overfull boxes larger than 5pt)", "params": { "threshold_pt": 5 } },
+    { "id": "glyphs", "type": "missing_glyphs", "severity": "warning", "description": "Every character prints (no glyphs missing from the font)" },
+    { "id": "lone_subsection", "type": "lone_subsection", "severity": "style", "description": "No heading has a single subheading" },
+    { "id": "citation_as_noun", "type": "citation_as_noun", "severity": "style", "description": "Citation numbers are not used as words" },
+    { "id": "reference_details", "type": "reference_details", "severity": "style", "description": "References give conference places, journal months and the author names", "params": { "place": true, "journal_month": true, "all_authors": true, "example": "in Proc. Abbrev. Name of Conf., City, Country, Year, pp. x–y", "authors_rule": "IEEE lists every author unless there are more than six" } },
+    { "id": "abstract_min", "type": "abstract_min_length", "severity": "style", "description": "Abstract of 150 to 250 words", "params": { "min_words": 150 } },
+    { "id": "abstract_form", "type": "abstract_form", "severity": "style", "description": "Abstract is one paragraph without math, citations or footnotes", "params": { "max_paragraphs": 1, "no_citations": true, "no_footnotes": true, "no_math": true } },
+    { "id": "title_style", "type": "title_style", "severity": "style", "description": "Title in title case, without math, \"new\" or \"novel\"", "params": { "case": "title", "no_all_caps": true, "no_math": true, "avoid_words": ["new", "novel"] } },
+    { "id": "heading_case", "type": "heading_case", "severity": "style", "description": "Headings in title case", "params": { "case": "title" } },
+    { "id": "affiliations", "type": "affiliation_location", "severity": "style", "description": "Affiliations give a city and country", "params": { "example": "Dept. Name, Institution, City, Country" } },
+    { "id": "spelling", "type": "spelling_consistency", "severity": "style", "description": "American spelling throughout", "params": { "variety": "american" } },
+    { "id": "eqnarray", "type": "text_pattern", "severity": "style", "description": "No eqnarray environment", "params": { "pattern": "\\\\begin\\{eqnarray\\*?\\}", "scope": "all", "message": "IEEE asks for align (or IEEEeqnarray) instead of eqnarray, which spaces the equals signs badly." } },
+    { "id": "units", "type": "text_pattern", "severity": "style", "description": "A space between each number and its unit", "params": { "pattern": "\\b\\d+(?:\\.\\d+)?(?:ms|ns|us|\\u00b5s|Hz|kHz|MHz|GHz|KB|MB|GB|TB|Kbps|kbps|Mbps|Gbps|Tbps|mW|kW|mm|cm|km|kg|dB|dBm|nm)\\b", "plain": true, "message": "Put a space between a number and its unit, as in \"10 ms\" (IEEE style)." } },
+    { "id": "abbreviations", "type": "undefined_abbreviations", "severity": "style", "description": "Abbreviations are spelled out at first use" },
+    { "id": "underscores", "type": "stray_underscores", "severity": "style", "description": "No plain underscores in the text" },
+    { "id": "figure_resolution", "type": "figure_resolution", "severity": "style", "description": "Images print at 300 dpi or more", "params": { "min_dpi": 300 } },
+    { "id": "identifying_text", "type": "identifying_text", "severity": "warning", "description": "Review version gives no hint of the authors (self-citations, links, emails, grants)" },
+    { "id": "copyright_notice", "type": "manual", "severity": "manual", "description": "Add the IEEE copyright notice required by your conference after acceptance" },
+    { "id": "pdf_express", "type": "manual", "severity": "manual", "description": "Validate the final PDF with IEEE PDF eXpress if your conference requires it" },
+    { "id": "figure_quality", "type": "manual", "severity": "manual", "description": "Check figures are legible in print and in grayscale" },
+    { "id": "conference_limits", "type": "manual", "severity": "manual", "description": "Confirm the page limit and anonymity policy in your conference's call for papers" },
+    { "id": "ai_disclosure", "type": "manual", "severity": "manual", "description": "If AI tools wrote any content, name them and the sections in the Acknowledgment (editing and grammar help need no disclosure)" },
+    { "id": "leftover_notes", "type": "text_pattern", "severity": "warning", "description": "No leftover notes to self (\\todo, TODO, FIXME)", "params": { "pattern": "\\\\(?:todo|TODO|fixme|FIXME)\\b|\\b(?:TODO|FIXME|TBD)\\b", "message": "The paper still has notes to self. Remove them, or write the missing text, before you submit." } },
+    { "id": "typed_author_year", "type": "text_pattern", "severity": "style", "description": "Citations are numbered, not typed as (Author, Year)", "params": { "pattern": "\\((?:see |e\\.g\\., )?[A-Z][A-Za-z'-]+(?: et al\\.| and [A-Z][A-Za-z'-]+)?,? (?:19|20)\\d\\d[a-z]?(?:[;,] [^()]*)?\\)", "plain": true, "message": "IEEE numbers its citations [1]; these look like author-year citations typed as text. Cite them with \\cite and a .bib file, or a numbered reference list." } },
+    { "id": "typed_references", "type": "typed_references", "severity": "warning", "description": "Typed figure and table numbers match the paper, and every figure and table has a caption" }
+  ],
+  "manual_review_items": [
+    "Author names, affiliations and emails were copied from your upload; confirm them.",
+    "Equation, table and figure placement may differ from your original layout."
+  ]
+}

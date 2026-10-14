@@ -1,0 +1,17 @@
+# Downloaded on first start (private Python, Tectonic, caches)
+runtime/
+.venv/
+venv/
+
+# Your data: settings with the API key, the job database and jobs
+output/*
+!output/.gitkeep
+
+# Python and tool leftovers
+__pycache__/
+*.pyc
+.pytest_cache/
+.claude/
+*.log
+.DS_Store
+Thumbs.db
