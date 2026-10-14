@@ -1,0 +1,3 @@
+Official *ACL style files, copied unchanged from https://github.com/acl-org/acl-style-files
+(commit d5adc82, June 2026). ACL asks authors not to modify these files.
+acl_natbib.bst is distributed under the LaTeX Project Public License (see the file header).

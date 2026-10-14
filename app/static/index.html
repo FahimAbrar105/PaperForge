@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Paper Forge</title>
+<script>(function(){var t;try{t=localStorage.getItem("pf-theme")}catch(e){}if(t!=="dark"&&t!=="light")t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t)})();</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23161616'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' text-anchor='middle' fill='%23f7f6f2'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<div class="shell">
+<header class="sidebar">
+  <a class="brand" href="/"><span class="brand-name">Paper Forge</span><span class="brand-tag">Venue formatting desk</span></a>
+  <nav class="nav" aria-label="Main"><a href="/" aria-current="page">New paper</a><a href="/settings">Settings</a></nav>
+  <div class="sidebar-foot">
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"/></svg>
+      <span class="toggle-label">Dark mode</span><span class="switch" aria-hidden="true"></span>
+    </button>
+    <p class="sidebar-note">Runs on this computer and works offline.</p>
+  </div>
+</header>
+
+<main class="workbench">
+  <div class="page-head">
+    <p class="kicker">New paper</p>
+    <h1>Format a paper for a venue</h1>
+    <p class="lead">Upload your manuscript (.tex, .md or .docx), its .bib file and figures. Files stay on this computer unless an agentic mode, or a question you ask the assistant, sends text to your AI provider.</p>
+  </div>
+
+  <div class="page-body">
+    <form id="upload-form" class="panel">
+      <div class="field">
+        <div class="field-label"><span class="num">1</span><label for="venue">Target venue</label></div>
+        <select id="venue" name="venue_id" required><option value="">Loading venues...</option></select>
+        <div id="version-row" class="version-row" hidden>
+          <label for="version">Version <span class="hint">(this venue reviews papers double-blind)</span></label>
+          <select id="version">
+            <option value="submission">Anonymous submission: authors and acknowledgements hidden</option>
+            <option value="camera_ready">Camera-ready: the accepted paper, with authors</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="field">
+        <div class="field-label"><span class="num">2</span><span class="label">Files</span>
+          <span class="hint">Manuscript, .bib, figures: up to <span id="limit">50</span> MB in total</span></div>
+        <div id="drop" class="drop" tabindex="0" role="button" aria-label="Choose files">
+          <strong>Drop files here</strong>
+          <span>or click to choose them</span>
+          <span class="hint">Manuscript: .tex .md .docx &middot; Bibliography: .bib &middot; Figures: .png .jpg .pdf .eps .svg</span>
+        </div>
+        <input id="file-input" type="file" multiple hidden
+               accept=".tex,.md,.markdown,.docx,.bib,.png,.jpg,.jpeg,.pdf,.eps,.svg">
+        <ul id="file-list" class="files"></ul>
+      </div>
+
+      <fieldset class="field">
+        <legend class="field-label"><span class="num">3</span><span class="label">Agentic mode</span> <span class="hint" id="ai-note"></span></legend>
+        <div class="modes" id="modes">
+          <label class="mode"><input type="radio" name="agentic_level" value="full"><b>Full agentic</b>
+            <span class="hint">AI agents run every step they can. If the AI limit is reached, the remaining steps switch to rules automatically.</span></label>
+          <label class="mode"><input type="radio" name="agentic_level" value="partial"><b>Partial</b>
+            <span class="hint">Rules do the work; AI helps only with hard cases (at most 3 requests).</span></label>
+          <label class="mode"><input type="radio" name="agentic_level" value="off"><b>Off</b>
+            <span class="hint">Rules only: the paper is formatted offline and sent nowhere. With an AI key saved, the assistant sends a short excerpt only when you ask it something.</span></label>
+        </div>
+      </fieldset>
+
+      <div class="form-foot">
+        <button type="submit" class="primary" id="submit-btn" disabled>Format paper</button>
+        <span class="hint">You can follow every step on the next page.</span>
+      </div>
+      <progress id="progress" value="0" max="100" hidden></progress>
+      <div id="upload-error" class="error" role="alert"></div>
+    </form>
+
+    <section class="panel">
+      <div class="panel-head"><h2>Job history</h2><span class="hint">Updates every few seconds</span></div>
+      <div id="history"><p class="empty">No jobs yet.</p></div>
+    </section>
+  </div>
+
+  <aside class="rail" aria-label="How Paper Forge works">
+    <section class="rail-block">
+      <h2>How it works</h2>
+      <ol class="how">
+        <li><span><b>Choose the venue.</b> Its template and layout rules are applied for you.</span></li>
+        <li><span><b>Add your files.</b> The manuscript, its bibliography and every figure.</span></li>
+        <li><span><b>Pick an agentic mode.</b> Rules only, or AI help where it is needed.</span></li>
+        <li><span><b>Download the results.</b> A PDF, the LaTeX source and a compliance report.</span></li>
+      </ol>
+    </section>
+    <section class="rail-block">
+      <h2>Your files</h2>
+      <p>Paper Forge runs locally. Uploaded files and results are stored in the <code>output</code> folder.</p>
+    </section>
+  </aside>
+</main>
+</div>
+<script src="/static/app.js"></script>
+<script>PF.initIndex();</script>
+</body>
+</html>

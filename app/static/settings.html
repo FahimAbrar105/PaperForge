@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Paper Forge settings</title>
+<script>(function(){var t;try{t=localStorage.getItem("pf-theme")}catch(e){}if(t!=="dark"&&t!=="light")t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t)})();</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23161616'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' text-anchor='middle' fill='%23f7f6f2'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<div class="shell">
+<header class="sidebar">
+  <a class="brand" href="/"><span class="brand-name">Paper Forge</span><span class="brand-tag">Venue formatting desk</span></a>
+  <nav class="nav" aria-label="Main"><a href="/">New paper</a><a href="/settings" aria-current="page">Settings</a></nav>
+  <div class="sidebar-foot">
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"/></svg>
+      <span class="toggle-label">Dark mode</span><span class="switch" aria-hidden="true"></span>
+    </button>
+    <p class="sidebar-note">Runs on this computer and works offline.</p>
+  </div>
+</header>
+
+<main>
+<form id="settings-form" class="workbench">
+  <div class="page-head">
+    <p class="kicker">Preferences</p>
+    <h1>Settings</h1>
+    <p class="lead">Paper Forge works fully offline without any AI. With an AI provider set up, you can run papers in an agentic mode, where AI agents make the decisions at each step.</p>
+  </div>
+
+  <div class="page-body">
+    <section class="setting">
+      <div class="setting-head">
+        <h2>Default agentic mode</h2>
+        <p class="hint">Pre-selected on the upload page; you can change it for each paper.</p>
+      </div>
+      <div class="setting-body">
+        <label class="radio"><input type="radio" name="agentic_level" value="full"> <span><b>Full agentic</b>: AI agents structure the paper, plan the layout, repair LaTeX errors and review the result. When the AI limit is reached, the remaining steps switch to rules.</span></label>
+        <label class="radio"><input type="radio" name="agentic_level" value="partial"> <span><b>Partial</b>: rules do the work; AI only for hard cases (at most 3 requests per paper).</span></label>
+        <label class="radio"><input type="radio" name="agentic_level" value="off"> <span><b>Off</b>: rules only. Nothing leaves this computer.</span></label>
+        <label for="max_agent_calls">Most AI requests per paper in Full mode <span class="hint">(1 to 30; a typical paper uses 3 to 8)</span></label>
+        <input id="max_agent_calls" name="max_agent_calls" type="number" min="1" max="30" class="short">
+      </div>
+    </section>
+
+    <section class="setting">
+      <div class="setting-head">
+        <h2>AI provider</h2>
+        <p class="hint">Used by the agentic modes and by the assistant.</p>
+      </div>
+      <div class="setting-body">
+        <label class="radio"><input type="radio" name="ai_provider" value="gemini"> <span><b>Gemini free tier</b> with your own API key (recommended).</span></label>
+        <label class="radio"><input type="radio" name="ai_provider" value="ollama"> <span><b>Ollama</b>: a local model on this computer.</span></label>
+      </div>
+    </section>
+
+    <section class="setting">
+      <div class="setting-head">
+        <h2>Gemini</h2>
+        <p class="hint">Optional.</p>
+      </div>
+      <div class="setting-body">
+        <label for="gemini_api_key">API key <span class="hint" id="key-state"></span></label>
+        <input id="gemini_api_key" name="gemini_api_key" type="password" autocomplete="off" placeholder="Paste a key from aistudio.google.com/apikey">
+        <p class="hint">Stored only in <code>output/settings.json</code> on this computer. In an agentic mode, text from your paper (and LaTeX excerpts around errors) is sent to Google's Gemini API. Requests are spaced a few seconds apart to stay within the free tier's per-minute limit.</p>
+        <label for="gemini_model">Model <span class="hint">asked first</span></label>
+        <select id="gemini_model" name="gemini_model"></select>
+        <p class="hint" id="model-error" role="status"></p>
+        <p class="hint" id="model-hint">If this model is busy or has used up its free requests, Paper Forge steps down to the next Flash model, then tries the others, until one answers. The job log names the model that answered.</p>
+        <div class="inline-actions">
+          <button type="button" class="secondary" id="test-gemini">Test Gemini</button>
+          <button type="button" class="danger" id="clear-key">Remove key</button>
+        </div>
+        <div class="notice">
+          <h3>About free Gemini keys</h3>
+          <ul>
+            <li>Google limits how many requests a free key can send per minute and per day. The limits differ by model and Google changes them from time to time. <a href="https://ai.google.dev/gemini-api/docs/rate-limits" target="_blank" rel="noopener">See the current limits</a>.</li>
+            <li>When Google's servers are busy, free requests can be slow or refused, so a paper can take several minutes longer. Paper Forge tries other models, and if none answers, that step uses its built-in rules, so you still get your PDF.</li>
+            <li>Google's terms for free use let it use what you send to improve its products, and human reviewers may read it. For a paper that must stay confidential, use Off mode, Ollama, or a key with billing turned on. <a href="https://ai.google.dev/gemini-api/terms" target="_blank" rel="noopener">Google's terms</a>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="setting">
+      <div class="setting-head">
+        <h2>Ollama</h2>
+        <p class="hint">Optional.</p>
+      </div>
+      <div class="setting-body">
+        <label class="radio"><input type="checkbox" id="ollama_enabled" name="ollama_enabled"> <span>Use Ollama when Gemini is unavailable or out of quota (keeps the job fully agentic)</span></label>
+        <div class="row">
+          <div><label for="ollama_base_url">Server URL</label><input id="ollama_base_url" name="ollama_base_url" type="url"></div>
+          <div><label for="ollama_model">Model</label><input id="ollama_model" name="ollama_model" type="text"></div>
+        </div>
+        <div class="inline-actions"><button type="button" class="secondary" id="test-ollama">Test Ollama</button></div>
+      </div>
+    </section>
+
+    <section class="setting">
+      <div class="setting-head">
+        <h2>Storage</h2>
+        <p class="hint">Jobs live in the <code>output</code> folder.</p>
+      </div>
+      <div class="setting-body">
+        <label for="retention_days">Delete jobs older than (days) <span class="hint">0 keeps everything</span></label>
+        <input id="retention_days" name="retention_days" type="number" min="0" max="3650" class="short">
+      </div>
+    </section>
+  </div>
+
+  <aside class="rail" aria-label="Save settings">
+    <section class="rail-block">
+      <h2>Save changes</h2>
+      <p>Settings are kept on this computer and apply to new papers.</p>
+      <div class="actions"><button type="submit" class="primary">Save settings</button></div>
+      <div id="save-msg" class="save-msg" aria-live="polite"></div>
+      <div id="settings-error" class="error" role="alert"></div>
+    </section>
+    <section class="rail-block">
+      <h2>System</h2>
+      <p id="tectonic-state"></p>
+    </section>
+  </aside>
+</form>
+</main>
+</div>
+<script src="/static/app.js"></script>
+<script>PF.initSettings();</script>
+</body>
+</html>

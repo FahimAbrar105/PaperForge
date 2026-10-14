@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Paper Forge job</title>
+<script>(function(){var t;try{t=localStorage.getItem("pf-theme")}catch(e){}if(t!=="dark"&&t!=="light")t=window.matchMedia&&matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light";document.documentElement.setAttribute("data-theme",t)})();</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='4' fill='%23161616'/%3E%3Ctext x='16' y='23' font-family='Georgia,serif' font-size='20' text-anchor='middle' fill='%23f7f6f2'%3EP%3C/text%3E%3C/svg%3E">
+<link rel="stylesheet" href="/static/app.css">
+</head>
+<body>
+<div class="shell">
+<header class="sidebar">
+  <a class="brand" href="/"><span class="brand-name">Paper Forge</span><span class="brand-tag">Venue formatting desk</span></a>
+  <nav class="nav" aria-label="Main"><a href="/">New paper</a><a href="/settings">Settings</a></nav>
+  <div class="sidebar-foot">
+    <button type="button" id="theme-toggle" class="theme-toggle" aria-pressed="false">
+      <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="6.25" fill="none" stroke="currentColor" stroke-width="1.5"/><path d="M8 1.75a6.25 6.25 0 0 1 0 12.5z" fill="currentColor"/></svg>
+      <span class="toggle-label">Dark mode</span><span class="switch" aria-hidden="true"></span>
+    </button>
+    <p class="sidebar-note">Runs on this computer and works offline.</p>
+  </div>
+</header>
+
+<main class="workbench rail-first">
+  <div class="page-head">
+    <p class="kicker">Formatting job</p>
+    <h1 id="job-title">Job</h1>
+  </div>
+
+  <div class="page-body">
+    <section class="panel" id="assistant" hidden>
+      <h2>Paper Forge Assistant</h2>
+      <p class="hint">Help with the issues Paper Forge could not fix itself. It only advises: you fix your own source and upload it again.
+        <span id="assistant-privacy"></span></p>
+      <h3>Open issues <span class="hint" id="issue-count"></span></h3>
+      <ul id="issues" class="issues"></ul>
+      <div id="chat" class="chat" aria-live="polite"></div>
+      <form id="ask-form" class="ask">
+        <div id="ask-about" class="about" hidden>Asking about: <span id="ask-about-text"></span>
+          <button type="button" id="ask-about-clear" aria-label="Ask about the whole paper instead" title="Ask about the whole paper instead">&times;</button></div>
+        <label for="question">Ask about your paper and the venue's guidelines</label>
+        <textarea id="question" rows="3" maxlength="2000" placeholder="For example: how do I shorten my abstract?"></textarea>
+        <div class="actions">
+          <button type="submit" class="primary" id="ask-btn">Ask</button>
+          <button type="button" class="secondary" id="chat-clear">Clear conversation</button>
+        </div>
+      </form>
+      <div id="assistant-error" class="error" role="alert"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Workflow log</h2>
+      <div id="log" class="log" aria-live="polite"></div>
+      <div id="log-live" class="log-live" hidden><span class="spinner" aria-hidden="true"></span><div><div id="log-live-text"></div><div id="log-live-hint" class="hint"></div></div></div>
+    </section>
+  </div>
+
+  <aside class="rail" aria-label="Job status">
+    <section class="rail-block">
+      <h2>Status</h2>
+      <div class="job-status">
+        <span id="job-status" class="status">...</span>
+        <span id="job-agentic" class="pill"></span>
+        <span id="job-step" class="hint"></span>
+        <span id="job-models" class="hint"></span>
+      </div>
+    </section>
+    <section class="rail-block">
+      <h2>Results</h2>
+      <div class="actions">
+        <a id="dl-pdf" class="button primary disabled" href="#">Download PDF</a>
+        <a id="dl-zip" class="button secondary disabled" href="#">Download LaTeX ZIP</a>
+        <a id="dl-report" class="button secondary disabled" href="#" target="_blank" rel="noopener">Open compliance report</a>
+        <button id="cancel-btn" type="button" class="danger" hidden>Cancel job</button>
+      </div>
+      <div id="job-error" class="error" role="alert"></div>
+    </section>
+    <section class="rail-block">
+      <h2>Workflow</h2>
+      <ol id="steps" class="steps"></ol>
+    </section>
+  </aside>
+</main>
+</div>
+<script src="/static/app.js"></script>
+<script>PF.initJob();</script>
+</body>
+</html>

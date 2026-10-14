@@ -1,0 +1,4 @@
+ACM's official acmart class, version 2.21 (2026/10/04). acmart.cls was generated unchanged from
+acmart.dtx and acmart.ins in https://github.com/borisveytsman/acmart (commit cb4bea0), with
+`tex acmart.ins`. ACM-Reference-Format.bst comes from the same repository.
+Both are distributed under the LaTeX Project Public License, version 1.3c or later.
